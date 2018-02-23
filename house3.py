@@ -21,8 +21,7 @@ y_data = y_data * 0.01 # 結果がNaN(無限大)になるので、0.01掛ける
 # b = tf.Variable(tf.zeros([1])) # b の初期値(0)
 a = tf.Variable(tf.zeros([1]))
 b = tf.Variable(tf.zeros([1]))
-# y = a * x_data + b # 一次方程式 a(傾き) b(切片)から y を求める
-y = b * tf.exp(x_data / (a+x_data))
+y = (a * x_data + (a**2) * x_data + (a**3) * x_data + b)*0.01 # 一次方程式 a(傾き) b(切片)から y を求める
 
 # 目的関数の定義
 loss = tf.reduce_mean(tf.square(y - y_data)) # 全ての点における誤差の平均(予測データ y と実データ y_data の差の二乗)
@@ -48,7 +47,7 @@ for step in range(1001):
 plt.scatter(x_data, y_data)
 
 # 回帰直線
-plt.plot(x_data, (sess.run(b) * tf.exp(x_data / (sess.run(a)+x_data))))
+plt.plot(x_data, (sess.run(a) * x_data + (sess.run(a)**2) * x_data + (sess.run(a)**3) * x_data + sess.run(b))*0.01)
 plt.show()
 
 sess.close()
